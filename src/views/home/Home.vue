@@ -1,16 +1,24 @@
 <template>
   <div>
-    主页
+    <nav-bar>
+      <div slot="center">购物街</div>
+    </nav-bar>
   </div>
 </template>
 <script>
+import NavBar from "components/common/navbar/NavBar";
 export default {
-  name: 'Home',
+  name: "Home",
   data() {
-    return {}
+    return {};
   },
-  components: {}
-}
+  components: {
+    NavBar
+  }
+};
 </script>
 <style>
+nav-bar {
+  text-align: center;
+}
 </style>
