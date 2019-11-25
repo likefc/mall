@@ -1,24 +1,30 @@
 <template>
   <div>
-    <nav-bar>
-      <div slot="center">购物街</div>
+    <nav-bar class="home-nav">
+      <div slot="center" class='navbarCenter'>
+        购物街
+      </div>
     </nav-bar>
   </div>
 </template>
 <script>
-import NavBar from "components/common/navbar/NavBar";
+import NavBar from 'components/common/navbar/NavBar'
 export default {
-  name: "Home",
+  name: 'Home',
   data() {
-    return {};
+    return {}
   },
   components: {
     NavBar
   }
-};
+}
 </script>
-<style>
-nav-bar {
+<style scoped>
+.home-nav {
+  background-color: var(--color-tint);
+  color: #fff;
+}
+.navbarCenter {
   text-align: center;
 }
 </style>
