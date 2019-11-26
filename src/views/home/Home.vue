@@ -7,6 +7,7 @@
     <home-recommend :recommends='recommends'></home-recommend>
     <home-feature></home-feature>
     <tab-control class='tab-control' :titles="['流行', '新款', '潮流']"></tab-control>
+    <goods-list :goods="goods['pop']['list']"></goods-list>
     <ul>
       <li>1111</li>
       <li>1112</li>
@@ -114,34 +115,59 @@
 <script>
 import NavBar from 'components/common/navbar/NavBar'
 import TabControl from 'components/content/tabControl/TabControl'
+import GoodsList from 'components/content/goods/GoodsList'
 
 import HomeSwiper from './childComponent/HomeSwiper'
 import HomeRecommend from './childComponent/HomeRecommend'
 import HomeFeature from './childComponent/HomeFeature'
 
-import { getHomeMultidata } from 'network/home'
+import { getHomeMultidata, getHomeGoods } from 'network/home'
+import { log } from 'util'
 export default {
   name: 'Home',
-  data() {
-    return {
-      banners: [],
-      recommends: []
-    }
-  },
-  created() {
-    //  请求多个数据
-    getHomeMultidata().then(res => {
-      const { banner, recommend } = res.data
-      this.banners = banner.list
-      this.recommends = recommend.list
-    })
-  },
   components: {
     NavBar,
     HomeSwiper,
     HomeRecommend,
     HomeFeature,
-    TabControl
+    TabControl,
+    GoodsList
+  },
+  data() {
+    return {
+      banners: [],
+      recommends: [],
+      goods: {
+        pop: { page: 0, list: [] },
+        new: { page: 0, list: [] },
+        sell: { page: 0, list: [] }
+      }
+    }
+  },
+  created() {
+    //  请求多个数据
+    this.getHomeMultidata()
+    // 获取商品
+    this.getHomeGoods('pop')
+    this.getHomeGoods('new')
+    this.getHomeGoods('sell')
+  },
+  methods: {
+    getHomeMultidata() {
+      getHomeMultidata().then(res => {
+        const { banner, recommend } = res.data
+        this.banners = banner.list
+        this.recommends = recommend.list
+      })
+    },
+    getHomeGoods(type) {
+      const page = this.goods[type].page + 1
+      getHomeGoods(type, page).then(data => {
+        console.log(data)
+        this.goods[type].list.push(...data.data.list)
+        this.goods[page]++
+      })
+    }
   }
 }
 </script>
@@ -165,5 +191,6 @@ export default {
   position: sticky;
   top: 44px;
   background-color: #fff;
+  z-index: 10;
 }
 </style>
