@@ -7,7 +7,7 @@
     <home-recommend :recommends='recommends'></home-recommend>
     <home-feature></home-feature>
     <tab-control class='tab-control' :titles="['流行', '新款', '潮流']" @tabClcik='changeTab'></tab-control>
-    <goods-list :goods="goods[currentType]['list']"></goods-list>
+    <goods-list :goods="tab"></goods-list>
     <ul>
       <li>1111</li>
       <li>1112</li>
@@ -132,6 +132,11 @@ export default {
     HomeFeature,
     TabControl,
     GoodsList
+  },
+  computed: {
+    tab() {
+      return this.goods[this.currentType]['list']
+    }
   },
   data() {
     return {
