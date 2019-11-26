@@ -1,13 +1,21 @@
 <template>
-  <div id='home'>
+  <div id="home">
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <home-swiper :banners='banners'></home-swiper>
-    <home-recommend :recommends='recommends'></home-recommend>
-    <home-feature></home-feature>
-    <tab-control class='tab-control' :titles="['流行', '新款', '潮流']" @tabClcik='changeTab'></tab-control>
-    <goods-list :goods="tab"></goods-list>
+    <scroll class="content">
+      <home-swiper :banners="banners"></home-swiper>
+      <home-recommend :recommends="recommends"></home-recommend>
+      <home-feature></home-feature>
+
+      <tab-control
+        class="tab-control"
+        :titles="['流行', '新款', '潮流']"
+        @tabClcik="changeTab"
+      ></tab-control>
+      <goods-list :goods="tab"></goods-list>
+    </scroll>
+
     <ul>
       <li>1111</li>
       <li>1112</li>
@@ -113,29 +121,31 @@
   </div>
 </template>
 <script>
-import NavBar from 'components/common/navbar/NavBar'
-import TabControl from 'components/content/tabControl/TabControl'
-import GoodsList from 'components/content/goods/GoodsList'
+import NavBar from "components/common/navbar/NavBar";
+import Scroll from "components/common/scroll/Scroll";
+import TabControl from "components/content/tabControl/TabControl";
+import GoodsList from "components/content/goods/GoodsList";
 
-import HomeSwiper from './childComponent/HomeSwiper'
-import HomeRecommend from './childComponent/HomeRecommend'
-import HomeFeature from './childComponent/HomeFeature'
+import HomeSwiper from "./childComponent/HomeSwiper";
+import HomeRecommend from "./childComponent/HomeRecommend";
+import HomeFeature from "./childComponent/HomeFeature";
 
-import { getHomeMultidata, getHomeGoods } from 'network/home'
-import { log } from 'util'
+import { getHomeMultidata, getHomeGoods } from "network/home";
+import { log } from "util";
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     NavBar,
     HomeSwiper,
     HomeRecommend,
     HomeFeature,
     TabControl,
-    GoodsList
+    GoodsList,
+    Scroll
   },
   computed: {
     tab() {
-      return this.goods[this.currentType]['list']
+      return this.goods[this.currentType]["list"];
     }
   },
   data() {
@@ -147,54 +157,54 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
       },
-      currentType: 'pop'
-    }
+      currentType: "pop"
+    };
   },
   created() {
     //  请求多个数据
-    this.getHomeMultidata()
+    this.getHomeMultidata();
     // 获取商品
-    this.getHomeGoods('pop')
-    this.getHomeGoods('new')
-    this.getHomeGoods('sell')
+    this.getHomeGoods("pop");
+    this.getHomeGoods("new");
+    this.getHomeGoods("sell");
   },
   methods: {
     changeTab(index) {
-      console.log(index)
+      console.log(index);
       switch (index) {
         case 0:
-          this.currentType = 'pop'
-          break
+          this.currentType = "pop";
+          break;
         case 1:
-          this.currentType = 'new'
-          break
+          this.currentType = "new";
+          break;
         case 2:
-          this.currentType = 'sell'
-          break
+          this.currentType = "sell";
+          break;
         default:
-          break
+          break;
       }
     },
 
     getHomeMultidata() {
       getHomeMultidata().then(res => {
-        const { banner, recommend } = res.data
-        this.banners = banner.list
-        this.recommends = recommend.list
-      })
+        const { banner, recommend } = res.data;
+        this.banners = banner.list;
+        this.recommends = recommend.list;
+      });
     },
     getHomeGoods(type) {
-      const page = this.goods[type].page + 1
+      const page = this.goods[type].page + 1;
       getHomeGoods(type, page).then(data => {
-        console.log(data)
-        this.goods[type].list.push(...data.data.list)
-        this.goods[page]++
-      })
+        console.log(data);
+        this.goods[type].list.push(...data.data.list);
+        this.goods[page]++;
+      });
     }
   }
-}
+};
 </script>
-<style>
+<style scoped>
 #home {
   padding-top: 44px;
   padding-bottom: 50px;
@@ -215,5 +225,9 @@ export default {
   top: 44px;
   background-color: #fff;
   z-index: 10;
+}
+.content {
+  height: 300px;
+  overflow: hidden;
 }
 </style>

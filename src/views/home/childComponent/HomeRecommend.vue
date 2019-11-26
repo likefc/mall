@@ -1,28 +1,32 @@
 <template>
-  <div class='home-recommend'>
-    <div v-for='(item, index) in recommends' :key='index' class='recommend-item'>
+  <div class="home-recommend">
+    <div
+      v-for="(item, index) in recommends"
+      :key="index"
+      class="recommend-item"
+    >
       <a :href="item.link">
-        <img :src="item.image" alt="">
-        <div>{{item.title}}</div>
+        <img :src="item.image" alt="" />
+        <div>{{ item.title }}</div>
       </a>
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: 'HomeRecommend',
+  name: "HomeRecommend",
   props: {
     recommends: {
       type: Array,
       default() {
-        return []
+        return [];
       }
     }
   },
   components: {}
-}
+};
 </script>
-<style>
+<style scoped>
 .home-recommend {
   display: flex;
   font-size: 12px;

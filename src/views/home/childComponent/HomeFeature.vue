@@ -1,18 +1,18 @@
 <template>
-  <div class='home-feature'>
+  <div class="home-feature">
     <a href="">
-      <img src="~assets/img/home/recommend_bg.jpg" alt="">
+      <img src="~assets/img/home/recommend_bg.jpg" alt="" />
     </a>
   </div>
 </template>
 <script>
 export default {
-  name: 'HomeFeature',
+  name: "HomeFeature",
   props: {},
   components: {}
-}
+};
 </script>
-<style>
+<style scoped>
 .home-feature {
   width: 100%;
   height: auto;
