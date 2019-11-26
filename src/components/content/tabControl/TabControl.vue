@@ -24,6 +24,7 @@ export default {
   methods: {
     itemClick(i) {
       this.currentIndex = i
+      this.$emit('tabClcik', i)
     }
   },
   components: {}
