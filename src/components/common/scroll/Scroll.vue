@@ -6,19 +6,24 @@
   </div>
 </template>
 <script>
-import BScroll from "better-scroll";
+import BScroll from 'better-scroll'
 
 export default {
-  name: "Scroll",
+  name: 'Scroll',
   data() {
     return {
       scroll: null
-    };
+    }
   },
   mounted() {
-    this.scroll = new BScroll(this.$refs.wrapper, {});
+    this.scroll = new BScroll(this.$refs.wrapper, {})
   },
-  components: {}
-};
+  methods: {
+    scrollTo(x, y, time) {
+      time = time || 0
+      this.scroll.scrollTo(x, y, time)
+    }
+  }
+}
 </script>
 <style></style>

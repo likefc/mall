@@ -3,7 +3,7 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <scroll class="home-content">
+    <scroll class="home-content" ref='scroll'>
       <home-swiper :banners="banners"></home-swiper>
       <home-recommend :recommends="recommends"></home-recommend>
       <home-feature></home-feature>
@@ -12,6 +12,7 @@
 
       <goods-list :goods="tab"></goods-list>
     </scroll>
+    <back-top class='home-back-top' @click.native='backTop' />
   </div>
 </template>
 <script>
@@ -19,6 +20,7 @@ import NavBar from 'components/common/navbar/NavBar'
 import Scroll from 'components/common/scroll/Scroll'
 import TabControl from 'components/content/tabControl/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
+import BackTop from 'components/content/backTop/BackTop'
 
 import HomeSwiper from './childComponent/HomeSwiper'
 import HomeRecommend from './childComponent/HomeRecommend'
@@ -35,7 +37,8 @@ export default {
     HomeFeature,
     TabControl,
     GoodsList,
-    Scroll
+    Scroll,
+    BackTop
   },
   computed: {
     tab() {
@@ -79,7 +82,9 @@ export default {
           break
       }
     },
-
+    backTop() {
+      this.$refs.scroll.scrollTo(0, 0, 500)
+    },
     getHomeMultidata() {
       getHomeMultidata().then(res => {
         const { banner, recommend } = res.data
