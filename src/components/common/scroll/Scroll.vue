@@ -6,14 +6,14 @@
   </div>
 </template>
 <script>
-import BScroll from "better-scroll";
+import BScroll from 'better-scroll'
 
 export default {
-  name: "Scroll",
+  name: 'Scroll',
   data() {
     return {
       scroll: null
-    };
+    }
   },
   props: {
     probeType: {
@@ -30,28 +30,32 @@ export default {
       click: true,
       probeType: this.probeType,
       pullUpLoad: this.pullUpLoad
-    });
-    this.scroll.on("scroll", position => {
-      // console.log(position)
-      this.$emit("scrollPosition", position);
-    });
-    this.scroll.on("pullingUp", () => {
-      console.log("上啦加载更多");
-      this.$emit("pullingUp");
-    });
+    })
+    if (this.probeType === 2 || this.probeType === 3) {
+      this.scroll.on('scroll', position => {
+        // console.log(position)
+        this.$emit('scrollPosition', position)
+      })
+    }
+    if (this.pullUpLoad) {
+      this.scroll.on('pullingUp', () => {
+        console.log('上啦加载更多')
+        this.$emit('pullingUp')
+      })
+    }
   },
   methods: {
     scrollTo(x, y, time) {
-      time = time || 0;
-      this.scroll.scrollTo(x, y, time);
+      time = time || 0
+      this.scroll && this.scroll.scrollTo(x, y, time)
     },
     finishPullUp() {
-      this.scroll.finishPullUp();
+      this.scroll.finishPullUp()
     },
     refresh() {
-      this.scroll.refresh();
+      this.scroll && this.scroll.refresh()
     }
   }
-};
+}
 </script>
 <style></style>
