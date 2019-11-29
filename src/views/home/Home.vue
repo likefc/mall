@@ -3,12 +3,13 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
+    <tab-control class="tab-control" :titles="['流行', '新款', '潮流']" @tabClcik="changeTab" ref='tabControl1' v-show="isTabFixed"></tab-control>
     <scroll class="home-content" ref="scroll" :probe-type="3" @scrollPosition="scrollPosition" :pullUpLoad="true" @pullingUp='loadMore'>
-      <home-swiper :banners="banners"></home-swiper>
+      <home-swiper :banners="banners" @SwiperImgLoad='SwiperImgLoad'></home-swiper>
       <home-recommend :recommends="recommends"></home-recommend>
       <home-feature></home-feature>
 
-      <tab-control class="tab-control" :titles="['流行', '新款', '潮流']" @tabClcik="changeTab"></tab-control>
+      <tab-control :titles="['流行', '新款', '潮流']" @tabClcik="changeTab" ref='tabControl2'></tab-control>
 
       <goods-list :goods="tab"></goods-list>
     </scroll>
@@ -56,7 +57,9 @@ export default {
         sell: { page: 0, list: [] }
       },
       currentType: 'pop',
-      isShow: false
+      isShow: false,
+      tabOffsetTop: 0,
+      isTabFixed: false
     }
   },
   created() {
@@ -91,15 +94,22 @@ export default {
         default:
           break
       }
+      this.$refs.tabControl1.currentIndex = index
+      this.$refs.tabControl2.currentIndex = index
     },
     backTop() {
       this.$refs.scroll.scrollTo(0, 0, 500)
     },
     scrollPosition(position) {
       this.isShow = -position.y > 800
+      this.isTabFixed = -position.y >= this.tabOffsetTop
     },
     loadMore() {
       this.getHomeGoods(this.currentType)
+    },
+    SwiperImgLoad() {
+      // console.log(this.$refs.tabControl.$el.offsetTop)
+      this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop
     },
     getHomeMultidata() {
       getHomeMultidata().then(res => {
@@ -122,25 +132,26 @@ export default {
 </script>
 <style scoped>
 #home {
-  padding-top: 44px;
+  /* padding-top: 44px; */
   padding-bottom: 50px;
 }
 .home-nav {
   text-align: center;
   background-color: var(--color-tint);
   color: #fff;
+  position: relative;
+  z-index: 10;
 
-  position: fixed;
+  /* position: fixed;
   top: 0;
   right: 0;
   left: 0;
-  z-index: 100;
+  z-index: 100; */
 }
 .tab-control {
-  position: sticky;
-  top: 44px;
+  position: relative;
   background-color: #fff;
-  z-index: 10;
+  z-index: 100;
 }
 .home-content {
   position: absolute;
