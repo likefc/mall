@@ -59,7 +59,8 @@ export default {
       currentType: 'pop',
       isShow: false,
       tabOffsetTop: 0,
-      isTabFixed: false
+      isTabFixed: false,
+      saveY: 0
     }
   },
   created() {
@@ -77,6 +78,13 @@ export default {
       // this.$refs.scroll.refresh()
       refresh()
     })
+  },
+  activated() {
+    this.$refs.scroll.scrollTo(0, this.saveY, 0)
+    this.$refs.scroll.refresh()
+  },
+  deactivated() {
+    this.saveY = this.$refs.scroll.getScrollY()
   },
   methods: {
     changeTab(index) {

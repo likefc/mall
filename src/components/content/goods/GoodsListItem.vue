@@ -7,7 +7,7 @@
       <span class='collect'>{{goodsItem['cfav']}}</span>
     </div>
   </div> -->
-  <div class="goods-item">
+  <div class="goods-item" @click='itemClick'>
     <img :src="goodsItem['show']['img']" @load="goodsItemImg" />
     <div class="goods-info">
       <p>{{ goodsItem.title }}</p>
@@ -18,22 +18,26 @@
 </template>
 <script>
 export default {
-  name: "GoodsListItem",
+  name: 'GoodsListItem',
   props: {
     goodsItem: {
       type: Object,
       default() {
-        return {};
+        return {}
       }
     }
   },
   components: {},
   methods: {
     goodsItemImg() {
-      this.$bus.$emit("goodsItemImg");
+      this.$bus.$emit('goodsItemImg')
+    },
+    itemClick() {
+      console.log('跳转到详情页')
+      this.$router.push(`/detail/${this.goodsItem.iid}`)
     }
   }
-};
+}
 </script>
 <style>
 .goods-item {
@@ -74,12 +78,12 @@ export default {
 }
 
 .goods-info .collect::before {
-  content: "";
+  content: '';
   position: absolute;
   left: -15px;
   top: 0;
   width: 14px;
   height: 14px;
-  background: url("~assets/img/common/collect.svg") 0 0/14px 14px;
+  background: url('~assets/img/common/collect.svg') 0 0/14px 14px;
 }
 </style>
